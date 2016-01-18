@@ -4,6 +4,10 @@
 #Also requires lxml implicitly for BS4
 from bs4 import BeautifulSoup
 import requests
+import json
+
+#JSON db file
+db_file = 'digits.json'
 
 #URL to scrape
 url = 'http://fivethirtyeight.com/features/significant-digits-for-friday-jan-15-2016/'
@@ -24,3 +28,11 @@ for h2 in cup_of_soup.find_all('h2'):
 
 #Print for validation
 print(list_of_digits)
+
+article_date = soup.find('meta', property='article:published_time')['content']
+print("Article Date: ", article_date)
+
+database = {article_date: list_of_digits}
+
+with open(db_file, 'w') as file:
+    file.write(json.dumps(database, indent=4))
