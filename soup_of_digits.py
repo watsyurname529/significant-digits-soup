@@ -6,10 +6,12 @@ import dateutil.parser as dateutil
 import requests
 import json
 
-start_date = date(2016, 1, 8)
-end_date = date(2016, 1, 15)
-
+start_date = date(2016, 1, 11)
+end_date = date(2016, 1, 22)
 current_date = start_date
+
+database = {}
+json_file = 'digits.json'
 
 while(current_date <= end_date):
 
@@ -33,6 +35,12 @@ while(current_date <= end_date):
 
                 print(url)
                 print(current_date)
+                #print(dateutil.parse(article_date))
                 print(list_of_digits)
 
+                database.update({current_date.isoformat(): list_of_digits})
+
     current_date = current_date + timedelta(days=1)
+
+with open(json_file, 'w') as file:
+    file.write(json.dumps(database, indent=4))
