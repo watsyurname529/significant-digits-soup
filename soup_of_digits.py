@@ -6,8 +6,8 @@ import dateutil.parser as dateutil
 import requests
 import json
 
-start_date = date(2016, 1, 11)
-end_date = date(2016, 1, 22)
+start_date = date(2015, 11, 1)
+end_date = date(2015, 12, 1)
 current_date = start_date
 
 database = {}
@@ -16,9 +16,13 @@ json_file = 'digits.json'
 while(current_date <= end_date):
 
     if(current_date.isoweekday() < 6):
-        string_date = current_date.strftime('%A-%b-%d-%Y').lower()
+        string_date = current_date.strftime('%A-%b-%-d-%Y').lower()
         url = 'http://fivethirtyeight.com/features/significant-digits-for-{}/'.format(string_date)
         page = requests.get(url)
+
+        if(page.status_code != requests.codes.ok):
+            url = 'http://fivethirtyeight.com/datalab/significant-digits-for-{}/'.format(string_date)
+            page = requests.get(url)
 
         if(page.status_code == requests.codes.ok):
 
@@ -39,6 +43,8 @@ while(current_date <= end_date):
                 print(list_of_digits)
 
                 database.update({current_date.isoformat(): list_of_digits})
+        else:
+            print('Invalid URL: ', url)
 
     current_date = current_date + timedelta(days=1)
 
