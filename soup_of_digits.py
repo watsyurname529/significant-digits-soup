@@ -25,7 +25,7 @@ def format_date_string( current_date ):
 
 
 #Setup dates for the scraper
-start_date = date(2014, 12, 16) #Significant Digits Start Date: 2014-12-16
+start_date = date(2016, 1, 16) #Significant Digits Start Date: 2014-12-16
 end_date = date.today() #date(2015, 2, 1)
 current_date = start_date
 
