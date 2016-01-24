@@ -9,6 +9,9 @@ import requests
 import json
 
 def format_date_string( current_date ):
+    """Function to handle differences in web url and the
+       ISO standard abbreviations for the months. Gets ISO
+       abbriviated string and converts to the one in the url."""
     date_string = current_date.strftime('%A-%b-%-d-%Y').lower()
     month = current_date.month
     if(month == 3):
@@ -31,7 +34,11 @@ current_date = start_date
 
 #Setup database and json file
 database = {}
-json_file = 'digits.json'
+
+json_file = input('Enter name of save file: ')
+if(json_file == ""):
+    json_file = 'digits.json'
+print('Saving data to ', json_file)
 
 #Main loop. For each day between the start and end date, try to load the webpage and
 #extract the numbers.
@@ -83,3 +90,5 @@ while(current_date <= end_date):
 #Save database in a json file
 with open(json_file, 'w') as file:
     file.write(json.dumps(database, indent=4))
+
+print('Grabbed data from ', start_date, ' to ', end_date)
