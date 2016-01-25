@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import dateutil.parser as dateutil
 import requests
 import json
+import sys
 
 def format_date_string( current_date ):
     """Function to handle differences in web url and the
@@ -34,8 +35,12 @@ current_date = start_date
 
 #Setup database and json file
 database = {}
+json_file = ""
 
-json_file = input('Enter name of save file: ')
+for args in sys.argv:
+    if(args == "-i"):
+        json_file = input('Enter name of save file: ')
+
 if(json_file == ""):
     json_file = 'digits.json'
 print('Saving data to ', json_file)
