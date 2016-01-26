@@ -2,7 +2,7 @@
 
 #Import necessary modules
 #BeautifulSoup implicitly requires the lxml package
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from bs4 import BeautifulSoup
 import dateutil.parser as dateutil
 import requests
@@ -29,18 +29,33 @@ def format_date_string( current_date ):
 
 
 #Setup dates for the scraper
+#Default for no input
 start_date = date(2016, 1, 16) #Significant Digits Start Date: 2014-12-16
 end_date = date.today() #date(2015, 2, 1)
 current_date = start_date
 
-#Setup database and json file
+#Setup database and json file variables
 database = {}
 json_file = ""
 
+#Cheap way to handle command line argument for an interactive mode
 for args in sys.argv:
     if(args == "-i"):
-        json_file = input('Enter name of save file: ')
 
+        #Get input for save file, start and end dates
+        #No sanity checking for date input, if wrong the code just exits
+        json_file = input('Enter name of save file: ')
+        in_start_date = str(input('Enter a start date as YYYY-MM-DD: '))
+        in_end_date = str(input('Enter an end date as YYYY-MM-DD: '))
+
+        #Setup dates for the scraper
+        #If start date is after end date, just proceed let it exit
+        start_date = datetime.strptime(in_start_date, '%Y-%m-%d').date()
+        end_date = datetime.strptime(in_end_date, '%Y-%m-%d').date()
+        current_date = start_date
+
+
+#If no input, set default save location
 if(json_file == ""):
     json_file = 'digits.json'
 print('Saving data to ', json_file)
@@ -79,13 +94,18 @@ while(current_date <= end_date):
                 for h2 in cup_of_soup.find_all('h2'):
                     list_of_digits.append(h2.get_text())
 
+                #Debug Print statements
                 #print(url)
-                print(current_date)
+                #print(current_date)
                 #print(dateutil.parse(article_date))
                 #print(list_of_digits)
+                print('Grabbed: ', current_date)
 
                 #Store in the database with the article date as the key
                 database.update({current_date.isoformat(): list_of_digits})
+
+            else:
+                print('Date Mismatch. Article: ', article_date, ' vs. Internal: ', current_date)
         else:
             print('Invalid URL: ', url)
 
