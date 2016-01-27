@@ -1,5 +1,12 @@
 #!/usr/local/bin/python3
 
+#Python implementation of the webscraper to gather the data. Loops over a
+#given or default date range and opens each page of FiveThirtyEight's
+#Significant Digits article and extracts the significant digits.
+#
+#The entire significant digit string is extracted for each article and each
+#article is stored in a JSON file organized by date of article.
+
 #Import necessary modules
 #BeautifulSoup implicitly requires the lxml package
 from datetime import date, datetime, timedelta
@@ -12,7 +19,8 @@ import sys
 def format_date_string( current_date ):
     """Function to handle differences in web url and the
        ISO standard abbreviations for the months. Gets ISO
-       abbriviated string and converts to the one in the url."""
+       abbriviated string and converts to the one in the url.
+    """
     date_string = current_date.strftime('%A-%b-%-d-%Y').lower()
     month = current_date.month
     if(month == 3):
