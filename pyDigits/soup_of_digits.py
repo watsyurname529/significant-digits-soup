@@ -38,13 +38,14 @@ def format_date_string( current_date ):
 
 #Setup dates for the scraper
 #Default for no input
-start_date = date(2016, 1, 16) #Significant Digits Start Date: 2014-12-16
+start_date = date(2014, 12, 16) #Significant Digits Start Date: 2014-12-16
 end_date = date.today() #date(2015, 2, 1)
 current_date = start_date
 
 #Setup database and json file variables
 database = {}
 json_file = ""
+num_days = 0
 
 #Cheap way to handle command line argument for an interactive mode
 for args in sys.argv:
@@ -111,6 +112,7 @@ while(current_date <= end_date):
 
                 #Store in the database with the article date as the key
                 database.update({current_date.isoformat(): list_of_digits})
+                num_days += 1
 
             else:
                 print('Date Mismatch. Article: ', article_date, ' vs. Internal: ', current_date)
@@ -125,3 +127,4 @@ with open(json_file, 'w') as file:
     file.write(json.dumps(database, indent=4))
 
 print('Grabbed data from ', start_date, ' to ', end_date)
+print('Total Number of Days: ', num_days)
