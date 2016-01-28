@@ -6,6 +6,7 @@
 import re
 import locale
 import json
+import csv
 
 locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
 
@@ -39,30 +40,26 @@ for num_string in list_of_digits_str:
             digit = int(char)
             list_of_counts[digit] += 1 
 
-            #for i in range(0,9):
-            #    if(digit == i):
-            #        list_of_counts[i] += 1 
-            #        break 
-            
-            #if(digit == 0):
-            #    list_of_counts['Zero'] += 1 
-            #if(digit == 1):
-            #    list_of_counts['One'] += 1
-            #if(digit == 2):
-            #    list_of_counts['Two'] += 1
-            #if(digit == 3):
-            #    list_of_counts['Three'] += 1
-            #if(digit == 4):
-            #    list_of_counts['Four'] += 1
-            #if(digit == 5):
-            #    list_of_counts['Five'] += 1
-            #if(digit == 6):
-            #    list_of_counts['Six'] += 1
-            #if(digit == 7):
-            #    list_of_counts['Seven'] += 1
-            #if(digit == 8):
-                #list_of_counts['Eight'] += 1
-            #if(digit == 9):
-            #    list_of_counts['Nine'] += 1
+list_of_counts_alt = {'Zero': list_of_counts[0], 'One': list_of_counts[1], 'Two': list_of_counts[2], 'Three': list_of_counts[3], 'Four': list_of_counts[4], 
+        'Five': list_of_counts[5], 'Six': list_of_counts[6], 'Seven': list_of_counts[7], 'Eight': list_of_counts[8], 'Nine': list_of_counts[9]}
+
+#with open('counts.csv', 'w') as csvfile:
+#    fieldnames = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine']
+#    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+#    writer.writeheader()
+#    writer.writerow(list_of_counts_alt[0])
+
+#with open('counts.csv', 'w') as csvfile:
+#    csvfile.write('Digit, Count\n')
+#    for key, value in list_of_counts_alt.items():
+#        csv_string = key + ',' + str(value) + '\n'
+#        csvfile.write(csv_string)
+
+with open('counts.csv', 'w') as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerow(['Digit','Counts'])
+    for key, value in list_of_counts_alt.items():
+        writer.writerow([key, value])
 
 print(list_of_counts)
+print(list_of_counts_alt)
