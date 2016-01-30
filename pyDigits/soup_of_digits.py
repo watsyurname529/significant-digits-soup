@@ -46,6 +46,7 @@ current_date = start_date
 database = {}
 json_file = ""
 num_days = 0
+num_digits = 0
 
 #Cheap way to handle command line argument for an interactive mode
 for args in sys.argv:
@@ -91,10 +92,10 @@ while(current_date <= end_date):
             #Initialize parser with lxml
             soup = BeautifulSoup(page.content, 'lxml')
             article_date = soup.find('meta', property='article:published_time')['content']
-            
+
             #Check if the article date matches the date we asked for
             if(current_date == dateutil.parse(article_date).date()):
-            
+
                 #Find the block of significant digits
                 cup_of_soup = soup.find('div', class_='entry-content')
 
@@ -102,6 +103,7 @@ while(current_date <= end_date):
                 list_of_digits = []
                 for h2 in cup_of_soup.find_all('h2'):
                     list_of_digits.append(h2.get_text())
+                    num_digits += 1
 
                 #Debug Print statements
                 #print(url)
@@ -109,6 +111,7 @@ while(current_date <= end_date):
                 #print(dateutil.parse(article_date))
                 #print(list_of_digits)
                 print('Grabbed: ', current_date)
+                print('Current Digit Count: ', num_digits)
 
                 #Store in the database with the article date as the key
                 database.update({current_date.isoformat(): list_of_digits})
@@ -128,3 +131,4 @@ with open(json_file, 'w') as file:
 
 print('Grabbed data from ', start_date, ' to ', end_date)
 print('Total Number of Days: ', num_days)
+print('Total Number of Digits: ', num_digits)

@@ -22,6 +22,9 @@ with open(json_file, 'r') as file:
 #Initalize lists and compile regex
 list_of_digits_str = []
 list_of_digits_num = []
+list_of_percents_str = []
+list_of_percents_num = []
+list_of_splits_num = []
 
 #Regex to extract any number from a string optionally containing a comma or
 #decimal point in the number.
@@ -34,9 +37,30 @@ for key, value in database.items():
     for entry in value:
         list_of_digits_str.extend(extract_digits.findall(entry))
 
+for key, value in database.items():
+    for entry in value:
+        if 'percent' in entry:
+            #list_of_percents_str.append(entry)
+            list_of_percents_str.extend(extract_digits.findall(entry))
+
+#Testing alternate method for extracting numbers to improve reconstruction
+for key, value in database.items():
+    for entry in value:
+        split_entry = entry.split(' ')
+        for each in split_entry:
+            each = re.sub(r'[^0-9\,\.]', '', each)
+            if(each != ''):
+                print(each)
+                list_of_splits_num.append(locale.atof(each))
+
+#print(list_of_percents_str)
+print(list_of_splits_num)
+
 #Take the lists of numbers encoded as strings and make a new list encoded as floats
 for digit_str in list_of_digits_str:
     list_of_digits_num.append(locale.atof(digit_str))
+for percent_str in list_of_percents_str:
+    list_of_percents_num.append(locale.atof(percent_str))
 
 #print(list_of_digits_str)
 #print(list_of_digits_num)
@@ -87,5 +111,14 @@ with open('numbers.csv', 'w') as csvfile:
     for digits in list_of_digits_num:
         writer.writerow([digits])
 
+#Save the list of all percents, currently as a single column with each digit
+with open('percent.csv', 'w') as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerow(['Percent'])
+    #writer.writerow(list_of_digits_num)
+    for digits in list_of_percents_num:
+        writer.writerow([digits])
+
 print(list_of_counts)
-print(list_of_counts_alt)
+#print(list_of_counts_alt)
+#print(list_of_digits_str)
