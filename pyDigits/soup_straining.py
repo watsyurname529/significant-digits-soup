@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 
 #Python code to do data wrangling / formatting from raw data files from the
 #webscraper code.

@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 
 #Python implementation of the webscraper to gather the data. Loops over a
 #given or default date range and opens each page of FiveThirtyEight's
