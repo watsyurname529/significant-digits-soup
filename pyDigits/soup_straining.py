@@ -33,7 +33,7 @@ extract_digits = re.compile(r'[0-9]*[\.\,]?[0-9]+')
 #Loop over all values in the database and extract the numbers.
 #Numbers are extracted as a list by the regex, and thus the original list is extended
 for key, value in database.items():
-    print(key)
+    #print(key)
     for entry in value:
         list_of_digits_str.extend(extract_digits.findall(entry))
 
@@ -45,6 +45,7 @@ for key, value in database.items():
 
 #Testing alternate method for extracting numbers to improve reconstruction
 for key, value in database.items():
+    print(key)
     for entry in value:
         split_entry = entry.split(' ')
         for each in split_entry:
