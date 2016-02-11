@@ -3,7 +3,7 @@
 #Python code to do data wrangling / formatting from raw data files from the
 #webscraper code.
 
-import re
+import regex
 import locale
 import json
 import csv
@@ -28,14 +28,15 @@ list_of_splits_num = []
 
 #Regex to extract any number from a string optionally containing a comma or
 #decimal point in the number.
-extract_digits = re.compile(r'[0-9]*[\.\,]?[0-9]+')
+extract_digits = regex.compile(r'[0-9]*[\.\,]?[0-9]+')
+recursive_digits = regex.compile(r'[0-9]*(?>[0-9\,\.]?|(?R))*[0-9]+')
 
 #Loop over all values in the database and extract the numbers.
 #Numbers are extracted as a list by the regex, and thus the original list is extended
 for key, value in database.items():
     #print(key)
     for entry in value:
-        list_of_digits_str.extend(extract_digits.findall(entry))
+        list_of_digits_str.extend(recursive_digits.findall(entry))
 
 for key, value in database.items():
     for entry in value:
@@ -49,13 +50,14 @@ for key, value in database.items():
     for entry in value:
         split_entry = entry.split(' ')
         for each in split_entry:
-            each = re.sub(r'[^0-9\,\.]', '', each)
+            each = regex.sub(r'[^0-9\,\.]', '', each)
             if(each != ''):
                 print(each)
-                list_of_splits_num.append(locale.atof(each))
+                #list_of_splits_num.append(locale.atof(each))
 
 #print(list_of_percents_str)
-print(list_of_splits_num)
+#print(list_of_splits_num)
+print(list_of_digits_str)
 
 #Take the lists of numbers encoded as strings and make a new list encoded as floats
 for digit_str in list_of_digits_str:
@@ -90,7 +92,7 @@ list_of_counts_alt = {'Zero': list_of_counts[0], 'One': list_of_counts[1], 'Two'
 #    writer.writerow(list_of_counts_alt[0])
 
 #Two columns, one for the digit and one for the count and a new row for each digit,
-#formatted manually (but still using the CSV writer module)
+#formatted manually
 #with open('counts.csv', 'w') as csvfile:
 #    csvfile.write('Digit, Count\n')
 #    for key, value in list_of_counts_alt.items():
@@ -122,4 +124,4 @@ with open('percent.csv', 'w') as csvfile:
 
 print(list_of_counts)
 #print(list_of_counts_alt)
-#print(list_of_digits_str)
+print(list_of_digits_num)
