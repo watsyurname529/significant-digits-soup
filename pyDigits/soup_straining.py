@@ -46,13 +46,13 @@ for key, value in database.items():
 
 #Testing alternate method for extracting numbers to improve reconstruction
 for key, value in database.items():
-    print(key)
+    #print(key)
     for entry in value:
         split_entry = entry.split(' ')
         for each in split_entry:
             each = regex.sub(r'[^0-9\,\.]', '', each)
-            if(each != ''):
-                print(each)
+            #if(each != ''):
+                #print(each)
                 #list_of_splits_num.append(locale.atof(each))
 
 #print(list_of_percents_str)
@@ -122,6 +122,6 @@ with open('percent.csv', 'w') as csvfile:
     for digits in list_of_percents_num:
         writer.writerow([digits])
 
-print(list_of_counts)
+#print(list_of_counts)
 #print(list_of_counts_alt)
 print(list_of_digits_num)
