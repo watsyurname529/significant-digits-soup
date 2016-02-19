@@ -35,24 +35,30 @@ class strainer:
             return -1
 
     def find_all_digits(self):
+        """In each significant digit entry (or header) it extracts all
+        numbers with the built in regex and returns them as a list. The numbers
+        are returned as floats, not strings.
         """
-        """
+        
+        #list_of_digits_str = []
+        #list_of_digits_num = []
+        #extract_digits = regex.compile(r'[0-9]*(?>[0-9\,\.]?|(?R))*[0-9]+')
 
-        list_of_digits_str = []
-        list_of_digits_num = []
-        extract_digits = regex.compile(r'[0-9]*(?>[0-9\,\.]?|(?R))*[0-9]+')
+        #for key, value in self.database.items():
+        #    for entry in value:
+        #        list_of_digits_str.extend(extract_digits.findall(entry))
 
-        for key, value in self.database.items():
-            for entry in value:
-                list_of_digits_str.extend(extract_digits.find_all(entry))
+        #for digit_str in list_of_digits_str:
+        #    list_of_digits_num.append(locale.atof(digit_str))
 
-        for digit_str in list_of_digits_str:
-            list_of_digits_num.append(locale.atof(digit_str))
-
-        return list_of_digits_num
+        #return list_of_digits_num
+        return self.find_all_string('');
 
     def find_all_string(self, string):
-        """
+        """In each significant digit entry (or header) it searches for
+        the given string. If found, then it extracts the numbers with the
+        built in regex and returns them as a list. The numbers are returned
+        as floats, not strings.
         """
 
         list_of_digits_str = []
@@ -61,8 +67,8 @@ class strainer:
 
         for key, value in self.database.items():
             for entry in value:
-                if string in entry:
-                    list_of_digits_str.extend(extract_digits.find_all(entry))
+                if string in entry: # and string is not None:
+                    list_of_digits_str.extend(extract_digits.findall(entry))
 
         for digit_str in list_of_digits_str:
             list_of_digits_num.append(locale.atof(digit_str))
@@ -70,7 +76,8 @@ class strainer:
         return list_of_digits_num
 
     def find_all_regex(self, regex):
-        """
+        """In each significant digit entry (or header) it searches for all
+        matches to the given regex and returns them as a list of strings.
         """
         
         list_of_matches = []
