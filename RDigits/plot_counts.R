@@ -1,4 +1,5 @@
 library(ggplot2)
+library(ggthemes)
 
 #Read in counts data from CSV
 list_of_counts <- read.csv("../data/counts.csv", header=TRUE)
@@ -18,7 +19,8 @@ plot_of_counts <- plot_of_counts + labs(title = "Frequency of Digits in Signific
 plot_of_counts <- plot_of_counts + theme(plot.title = element_text(vjust=2))
 plot_of_counts <- plot_of_counts + theme(axis.title.x = element_text(vjust=-0.35))
 plot_of_counts <- plot_of_counts + theme(axis.title.y = element_text(vjust=0.45))
+plot_of_counts <- plot_of_counts + theme_fivethirtyeight()
 
 #Save plots
-ggsave("count_of_digits.png", width = 5, height = 5)
+#ggsave("count_of_digits.png", width = 5, height = 5)
 ggsave("count_of_digits.pdf", width = 5, height = 5)

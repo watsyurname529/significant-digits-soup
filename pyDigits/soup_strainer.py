@@ -18,7 +18,7 @@ class strainer:
         self.database = {}
         locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
-    def read_database(self, filename):
+    def read_database_file(self, filename):
         """Given a filename, read that file using the JSON
         module into the internal database variable.
 
@@ -34,12 +34,13 @@ class strainer:
             print('{} not found.'.format(filename))
             return -1
 
-    def find_all_digits(self):
+    def find_numbers(self):
         """In each significant digit entry (or header) it extracts all
         numbers with the built in regex and returns them as a list. The numbers
-        are returned as floats, not strings.
+        are returned as strings. Returns an empty list if no matches
+        are found.
         """
-        
+
         #list_of_digits_str = []
         #list_of_digits_num = []
         #extract_digits = regex.compile(r'[0-9]*(?>[0-9\,\.]?|(?R))*[0-9]+')
@@ -52,17 +53,18 @@ class strainer:
         #    list_of_digits_num.append(locale.atof(digit_str))
 
         #return list_of_digits_num
-        return self.find_all_string('');
+        return self.find_numbers_string('');
 
-    def find_all_string(self, string):
+    def find_numbers_string(self, string):
         """In each significant digit entry (or header) it searches for
-        the given string. If found, then it extracts the numbers with the
-        built in regex and returns them as a list. The numbers are returned
-        as floats, not strings.
+        the given string. If the string is found, it extracts the numbers
+        in that entry (header) with the built in regex and returns them as a list.
+        The numbers are returned as strings. Returns an empty list if
+        no matches are found.
         """
 
         list_of_digits_str = []
-        list_of_digits_num = []
+        #list_of_digits_num = []
         extract_digits = regex.compile(r'[0-9]*(?>[0-9\,\.]?|(?R))*[0-9]+')
 
         for key, value in self.database.items():
@@ -70,16 +72,16 @@ class strainer:
                 if string in entry: # and string is not None:
                     list_of_digits_str.extend(extract_digits.findall(entry))
 
-        for digit_str in list_of_digits_str:
-            list_of_digits_num.append(locale.atof(digit_str))
+        #for digit_str in list_of_digits_str:
+        #    list_of_digits_num.append(locale.atof(digit_str))
 
-        return list_of_digits_num
+        return list_of_digits_str
 
-    def find_all_regex(self, regex):
+    def find_regex(self, regex):
         """In each significant digit entry (or header) it searches for all
         matches to the given regex and returns them as a list of strings.
         """
-        
+
         list_of_matches = []
         extract_expression = regex.compile(regex)
 
@@ -88,3 +90,11 @@ class strainer:
                 list_of_matches.extend(extract_expression.find_all(entry))
 
         return list_of_matches
+
+    def string_to_numbers(self, list_str):
+
+        list_num = []
+        for string in list_str:
+            list_num.append(locale.atof(string))
+
+        return list_num
